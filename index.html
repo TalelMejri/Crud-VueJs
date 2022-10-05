@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="./assets/bootstrap.min.css">
+    <!--<script src="https://unpkg.com/vue@3"></script>-->
+    <script src="./js/vue.global.js"></script>
+    <title>list Etudiant</title>
+</head>
+<body>
+   <!--<canvas style="position:absolute;width:100%;" class="text-center" id="my-canvas"></canvas>-->
+    <div id="app" class="py-2 mt-4"> 
+    <div class="container m-auto py-5 my-5 mt-5">
+        <div class="row mb-4 text-center">
+            <div class="col-md-6">
+                <input type="text" class="form-control" v-model="search" placeholder="search">
+            </div>
+            <div class="col-md-6 ">
+                <button class="btn btn-primary" @click="add_personne()">Add</button>
+            </div>
+        </div>
+       <div id="show" v-if="showadd">
+            <form  class="text-center" @submit.prevent="Onsubmit">
+                <h1>Add Personne </h1>
+                    <div v-if="error!=''" class="alert alert-danger">
+                            {{error}}
+                    </div>
+                   <input type="text" class="form-control mb-2" v-model="name" placeholder="Entrez votre Nom">
+                   <input type="text" class="form-control mb-2" v-model="email" placeholder="Entrez votre Email">
+                <button  class="btn btn-primary">Add</button>
+                <button class="btn btn-danger" @click="hide()">Cancel</button>
+            </form>
+       </div>
+       
+       <div id="show" v-if="confirmer">
+          <div style="font-size: 25px;" class="fw-bolder text-center py-5">{{dynamique}} succeffully User <br> <span>{{name}}</span></div> 
+      </div>
+       <div id="show" v-if="showupdate">
+        <form  class="text-center" @submit.prevent="OnUpdate">
+             <h1>Update Personne </h1>
+            <input type="text" class="form-control mb-2" v-model="name">
+            <input type="email" class="form-control mb-2" v-model="email">
+            <button  class="btn btn-primary">Update</button>
+            <button class="btn btn-danger" @click="hide()">Cancel</button>
+        </form>
+   </div>
+       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead class="text-center">
+            <tr>
+                <td  @click="sortby('id')">#</td>
+                <td  @click="sortby('name')">Name</td>
+                <td  @click="sortby('email')">email</td>
+                <td>action</td>
+            </tr>
+          </thead>
+
+        <tr  class="text-center bg-dark text-white" v-for="(etudiant,index) in mysearch" :key="etudiant.id">
+              <td>{{index+1}}</td>
+              <td>{{etudiant.name}}</td>
+              <td>{{etudiant.email}}</td>
+             <!--<td><button :class="etudiant.test=='error' ? 'btn btn-danger' : 'btn btn-success'">{{etudiant.test=="error" ? 'danger' : 'ok'}}</button></td>-->
+              <td>
+                <button class="btn btn-warning mx-2" @click="update_personne(index)">update</button>
+                <button class="btn btn-danger" @click="delete_personne(index)">delete</button>
+                <!--<a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">Delete</a>-->
+          <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Delete User</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Are You Sure To Delete {{etudiant.name}}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button class="btn btn-danger" @click="delete_personne(index)">delete</button>
+                </div>
+              </div>
+            </div>
+          </div>-->
+            </td>
+       </tr>
+            <tr class="text-center bg-danger text-white" v-if="etudiants.length==0">
+                <td class="text-center fw-bolder" colspan="6">Empty</td>
+            </tr>
+            <tr class="text-center bg-danger text-white" v-if="mysearch==''" >
+                <td class="text-center fw-bolder" colspan="6">Not Found</td>
+            </tr>
+        <tfoot class="text-center">
+            <tr>
+                <td>#</td>
+                <td>Name</td>
+                <td>email</td>
+                <td>action</td>
+            </tr>
+          </tfoot>
+      </table>
+    </div>
+    </div>
+    
+<script src="./js/index.min.js"></script>
+ <script>   
+   var confettiSettings = { target: 'my-canvas' };
+   var confetti = new ConfettiGenerator(confettiSettings);
+   confetti.render();
+</script>
+ <script src="./js/main.js"></script>
+</body>
+</html>
