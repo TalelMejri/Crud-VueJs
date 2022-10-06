@@ -26,9 +26,6 @@ const app=Vue.createApp({
         delete_personne(id) {
             if (confirm("Do you wanna delte this person"))
                 this.etudiants.splice(id,1);
-           /* this.etudiants=this.etudiants.filter(p=>{
-                p.id!=id;
-            })*/
         },
         add_personne(){
             this.showadd=1;
